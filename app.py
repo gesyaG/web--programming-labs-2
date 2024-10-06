@@ -235,4 +235,4 @@ def example():
     labNumber = '2'
     group = 'ФБИ-23'
     courseNumber = '3'
-    return render_template('example.html', name=name, labNumber=labNumber, group=group, courseNumber=courseNumber)
+    return render_template('example.html', name=name, labNumber=labNumber,)
