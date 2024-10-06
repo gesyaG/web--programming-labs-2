@@ -265,6 +265,28 @@ def flowersList():
 def without_flower():
     return "вы не задали имя цветка", 400
 
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calc(a, b):
+     return f'''
+     <!doctype html>
+     <html>
+        <body>
+              {a} + {b} = { a + b }<br>
+              {a} - {b} = { a - b }<br>
+              {a} * {b} = { a * b }<br>
+              {a} / {b} = { a / b }<br>
+              {a}<sup>{b}</sup> = { a ** b }
+        </body>
+     </html>
+'''
+
+@app.route('/lab2/calc/')
+def calcWithoutNum():
+    return redirect("/lab2/calc/1/1", code=302)
+
+@app.route('/lab2/calc/<int:a>/')
+def calcWithOneNum(a):
+ return redirect(f"/lab2/calc/{a}/1", code=302)
 
 @app.route('/lab2/example')
 def example():
