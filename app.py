@@ -314,7 +314,7 @@ def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase=phrase)
 
-@app.route('/lab2/books')
+@app.route('/lab2/books/')
 def books():
     books = [
          {'author': 'Виктор Пелевин', 'name': 'Круть', 'genre': 'Триллер', 'pages': 344},
@@ -329,4 +329,18 @@ def books():
          {'author': 'Евгений Астахов', 'name': 'Пробуждение силы. Том 2', 'genre': 'Боевое фэнтэзи', 'pages': 287},
     ]
     return render_template('books.html', books=books)
+
+@app.route('/lab2/vegetables')
+def vegetables():
+    vegetables = [
+        {'image': url_for('static', filename='beet.png'), 'name': 'Свекла', 'description': 'Свекла полезный овощь с ним делают борщ'},
+        {'image': url_for('static', filename='cabbage.png'), 'name': 'Капуста', 'description': 'Если много кушать капусту будешь здоровый!'},
+        {'image': url_for('static', filename='carrot.png'), 'name': 'Морковка', 'description': 'Длинный продолговатый овощь оранджевого цвета, говорят улучшает зрение'},
+        {'image': url_for('static', filename='radish.png'), 'name': 'Редис', 'description': 'Не самый вкусный овощ, но один из полезных'},
+        {'image': url_for('static', filename='tomato.png'), 'name': 'Томат', 'description': 'Самый вкусный здесь овощ, можно с ним сделать много вкусных вещей'},
+    ]
+    return render_template('vegetables.html', vegetables=vegetables)
+
+
+
 
