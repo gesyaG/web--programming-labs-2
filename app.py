@@ -313,3 +313,20 @@ def lab2():
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase=phrase)
+
+@app.route('/lab2/books')
+def books():
+    books = [
+         {'author': 'Виктор Пелевин', 'name': 'Круть', 'genre': 'Триллер', 'pages': 344},
+         {'author': 'Алексей Небоходов', 'name': 'Месть-дело семейное', 'genre': 'Любовный роман', 'pages': 34},
+         {'author': 'Роман прокофьев', 'name': 'Звездная Кровь – 7. Дикая Охота', 'genre': 'Боевая фантастика', 'pages': 330},
+         {'author': 'Кирилл Клеванский', 'name': 'Матабар', 'genre': 'Героическое фэнтэзи', 'pages': 714},
+         {'author': 'Ян Бадевский', 'name': 'Мастер ножей', 'genre': 'Стимпанк', 'pages': 310},
+         {'author': 'Ян Бадевский', 'name': 'Предельные Чертоги', 'genre': 'Боевая фантастика', 'pages': 320},
+         {'author': 'Cyberdawn', 'name': 'Потапыч', 'genre': 'Юмористическое фэнтэзи', 'pages': 450},
+         {'author': 'Евгений Астахов', 'name': 'Путь водного дракона', 'genre': 'Боевое фэнтэзи', 'pages': 357},
+         {'author': 'Юрий Винокуров', 'name': 'Убивать, чтобы жить 3', 'genre': 'Героичкская фантастика', 'pages': 260},
+         {'author': 'Евгений Астахов', 'name': 'Пробуждение силы. Том 2', 'genre': 'Боевое фэнтэзи', 'pages': 287},
+    ]
+    return render_template('books.html', books=books)
+
