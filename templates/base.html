@@ -6,6 +6,13 @@
     <title>Александр Герасимов. {% block lab %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            {% if request.cookies.get('color') %}
+            color: {{ request.cookies.get('color') }} ;
+            {% endif %}
+        }
+    </style>
 </head>
 <body>
     <header>
