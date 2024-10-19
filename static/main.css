@@ -24,3 +24,8 @@ footer {
     left: 0;
     right: 0;
 }
+
+.error {
+    font-weight: bold;
+    color: red;
+}
