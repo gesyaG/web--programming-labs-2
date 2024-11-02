@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf40f7c8-cdaa-4ad9-b1de-2d2492ddaf12" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lab4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +38,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/naomi/OneDrive/Рабочий стол/Фронтенд/Курс/lumincoinFinance",
+    "last_opened_file_path": "C:/Users/naomi/OneDrive/Рабочий стол/Сомнительная авантюра/web",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -71,6 +73,9 @@
       <workItem from="1728015064774" duration="19607000" />
       <workItem from="1728651457017" duration="4947000" />
       <workItem from="1728661841425" duration="2188000" />
+      <workItem from="1729298181242" duration="13822000" />
+      <workItem from="1729339845406" duration="89000" />
+      <workItem from="1730554514341" duration="1354000" />
     </task>
     <servers />
   </component>
