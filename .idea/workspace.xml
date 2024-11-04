@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf40f7c8-cdaa-4ad9-b1de-2d2492ddaf12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/lab4/div-form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/lab4/div.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/exponent-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/exponent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/mult-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/mult.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/sub-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/sub.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/sum-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab4/sum.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab4.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/lab4/lab4.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/lab4/lab4.html" afterDir="false" />
@@ -77,7 +83,7 @@
       <workItem from="1728661841425" duration="2188000" />
       <workItem from="1729298181242" duration="13822000" />
       <workItem from="1729339845406" duration="89000" />
-      <workItem from="1730554514341" duration="5704000" />
+      <workItem from="1730554514341" duration="9453000" />
     </task>
     <servers />
   </component>
