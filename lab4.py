@@ -232,3 +232,53 @@ def order_grain():
         return render_template('/lab4/order-grain.html', grain_type=grain_type, weight=weight, total_cost=total_cost, discount=discount, grain_types=prices.keys())
 
     return render_template('/lab4/order-grain.html', grain_types=prices.keys())
+
+
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        new_user = {
+        'login': request.form['login'],
+        'password': request.form['password'],
+        'name': request.form['name'],
+        'gender': request.form['gender'],
+        }
+        users.append(new_user)
+        flash('Пользователь успешно зарегистрирован!')
+        return redirect('/lab4/login')
+    return render_template('/lab4/register.html')
+
+@lab4.route('/lab4/users_list')
+def users_list():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+    logged_user = next((user for user in users if user['login'] == session['login']), None)
+    return render_template('/lab4/users_list.html', users=users, logged_user=logged_user)
+
+
+@lab4.route('/lab4/edit_user', methods=['GET', 'POST'])
+def edit_user():
+  if 'login' not in session:
+    return redirect('/lab4/login')
+
+  logged_user = next((user for user in users if user['login'] == session['login']), None)
+
+  if request.method == 'POST':
+    logged_user['name'] = request.form['name']
+    logged_user['password'] = request.form['password']
+    flash('Данные пользователя обновлены!')
+    return redirect('/lab4/users_list')
+
+  return render_template('/lab4/edit_user.html', user=logged_user)
+
+
+@lab4.route('/lab4/delete_user')
+def delete_user():
+  if 'login' not in session:
+    return redirect('/lab4/login')
+  logged_user = session['login']
+  global users
+  users = [user for user in users if user['login'] != logged_user]
+  session.pop('login', None)
+  flash('Пользователь удален!')
+  return redirect('/lab4/login')

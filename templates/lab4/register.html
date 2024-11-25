@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block lab %} Лабораторнаая работа 4 {% endblock %}
+{% block main %}
+
+<h1>Регистрация</h1>
+<form method="post" action="/lab4/register">
+    Логин: <input type="text" name="login" required><br>
+    Пароль: <input type="password" name="password" required><br>
+    Имя: <input type="text" name="name" required><br>
+    <select name="gender">
+        <option value="мужчина">Мужчина</option>
+        <option value="женщина">Женщина</option>
+    </select><br>
+    <button type="submit">Зарегистрироваться</button>
+    <a href="/lab4/login">Вход</a>
+</form>
+{% endblock %}
