@@ -122,10 +122,10 @@ def tree():
 
 
 users = [
-    {'login': 'alex', 'password': '123'},
-    {'login': 'bob', 'password': '555'},
-    {'login': 'stive', 'password': '666'},
-    {'login': 'rob', 'password': '777'},
+    {'login': 'alex', 'password': '123', 'name': 'Алексей Петров', 'gender': 'мужчина'},
+    {'login': 'bob', 'password': '555', 'name': 'Боб Маляров', 'gender': 'мужчина'},
+    {'login': 'stive', 'password': '666', 'name': 'Стив Николаев', 'gender': 'мужчина'},
+    {'login': 'rob', 'password': '777', 'name': 'Роб Валеров', 'gender': 'мужчина'},
 ]
 
 
@@ -135,6 +135,10 @@ def login():
          if 'login' in session:
              authorized = True
              login = session['login']
+             for user in users:
+                 if user['login'] == login:
+                     name = user['name']
+                     return render_template('/lab4/login.html', authorized=authorized, login=login, name=name)
          else:
              authorized = False
              login = ''
@@ -142,6 +146,13 @@ def login():
 
      login = request.form.get('login')
      password = request.form.get('password')
+
+     if not login:
+        error = 'Не введён логин'
+        return render_template('/lab4/login.html', error=error, authorized=False, login=login)
+     if not password:
+        error = 'Не введён пароль'
+        return render_template('/lab4/login.html', error=error, authorized=False, login=login)
 
      for user in users:
         if login == user['login'] and user['password']:
