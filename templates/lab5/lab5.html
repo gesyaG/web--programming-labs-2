@@ -48,7 +48,11 @@
 <h1>База знаний</h1>
 <div class="container">
     <div class="content">
+        {% if login %}
+            <p>{{ login }}!</p>
+        {% else %}
         <p>Аноним</p>
+        {% endif %}
         <a href="/lab5/login"><button>Войти</button></a>
         <a href="/lab5/register"><button>Регистрация</button></a>
         <a href="/lab5/list"><button>Список статей</button></a>

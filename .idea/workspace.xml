@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf40f7c8-cdaa-4ad9-b1de-2d2492ddaf12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/lab5/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/lab5/success.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab5/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lab5/success_login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab5.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/lab5/lab5.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/lab5/lab5.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +84,7 @@
       <workItem from="1731037085480" duration="211000" />
       <workItem from="1732540234798" duration="7019000" />
       <workItem from="1734589325710" duration="3593000" />
-      <workItem from="1734601750358" duration="3810000" />
+      <workItem from="1734601750358" duration="7977000" />
     </task>
     <servers />
   </component>
