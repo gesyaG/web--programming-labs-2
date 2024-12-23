@@ -1,82 +1,108 @@
-from flask import Blueprint, redirect, request
+from flask import Blueprint, redirect, url_for, render_template, render_template_string, abort, request, make_response, session,  current_app, jsonify
+from functools import wraps
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
+from os import path
+from datetime import datetime
 
 lab7 = Blueprint('lab7', __name__)
 
 
+def db_connect():
+
+    if current_app.config['DB_TYPE'] == 'postgres':
+        conn = psycopg2.connect(dbname="alexander_gerasimov_knowledge_base",
+        user="postgres",
+        password="postgres!",
+        host="127.0.0.1"
+        )
+        cur = conn.cursor(cursor_factory = RealDictCursor)
+
+    else:
+        dir_path = path.dirname(path.realpath(__file__))
+        db_path = path.join(dir_path, "database.db")
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+
+    return conn, cur
+
+def db_close(conn, cur):
+    conn.commit()
+    cur.close()
+    conn.close()
+
 @lab7.route('/lab7/')
-def lab():
+def main():
     return render_template('lab7/lab7.html')
-
-
-films = [
-    {
-        "title": "Shutter Island",
-        "title_ru": "Остров проклятых",
-        "year": 2009,
-        "description": "Два американских судебных пристава отправляются на один из островов в штате Массачусетс, чтобы расследовать исчезновение пациентки клиники для умалишенных преступников. При проведении расследования им придется столкнуться с паутиной лжи, обрушившимся ураганом и смертельным бунтом обитателей клиники."
-    },
-    {
-        "title": "Собачье сердце",
-        "title_ru": "Собачье сердце",
-        "year": 1988,
-        "description": "Москва, 1924 год. В результате одного из сложнейших опытов профессор Филипп Филиппович Преображенский делает потрясающее открытие: после пересадки гипофиза человека пёс Шарик начинает приобретать человеческие черты. Сенсационная новость мгновенно разлетается по Москве и приносит мировому светилу очередную порцию признания. Однако радость оказывается недолгой: вопрос, что из Шарика — то есть гражданина Шарикова — может получиться «высокая психическая личность», очень быстро становится под сомнение."
-    },
-    {
-        "title": "Harry Potter and the Sorcerer's Stone",
-        "title_ru": "Гарри Поттер и философский камень",
-        "year": 2001,
-        "description": "Жизнь десятилетнего Гарри Поттера нельзя назвать сладкой: родители умерли, едва ему исполнился год, а от дяди и тёти, взявших сироту на воспитание, достаются лишь тычки да подзатыльники. Но в одиннадцатый день рождения Гарри всё меняется. Странный гость, неожиданно появившийся на пороге,  приносит письмо, из которого мальчик узнаёт, что на самом деле он - волшебник и зачислен в школу магии под названием Хогвартс. А уже через пару недель Гарри будет мчаться в поезде Хогвартс-экспресс навстречу новой жизни, где его ждут невероятные приключения, верные друзья и самое главное — ключ к разгадке тайны смерти его родителей."
-    },
-    {
-        "title": "Lock, Stock and Two Smoking Barrels",
-        "title_ru": "Карты, деньги, два ствола",
-        "year": 1998,
-        "description": "Четверо приятелей накопили по 25 тысяч фунтов, чтобы один из них мог сыграть в карты с опытным шулером и матерым преступником, известным по кличке Гарри Топор. Парень проиграл 500 тысяч, на выплату долга ему дали неделю, а в противном случае и ему и его друзьям каждый день будут отрубать по пальцу. Ребята решают ограбить бандитов, решивших ограбить трех ботаников, выращивающих марихуану для местного наркобарона."
-    },
-    {
-        "title": "The Silence of the Lambs",
-        "title_ru": "Молчание ягнят",
-        "year": 1990,
-        "description": "Психопат похищает и убивает молодых женщин по всему Среднему Западу. ФБР, уверенное, что все преступления совершены одним и тем же человеком, поручает агенту Клариссе Старлинг встретиться с заключенным-маньяком Ганнибалом Лектером, который мог бы помочь составить психологический портрет убийцы. Сам Лектер отбывает наказание за убийства и каннибализм. Он согласен помочь Клариссе лишь в том случае, если она попотчует его больное воображение подробностями своей личной жизни."
-    },
-]
 
 
 @lab7.route('/lab7/rest-api/films/', methods=['GET'])
 def get_films():
-    return films
-
+    conn, cur = db_connect()
+    cur.execute("SELECT * FROM films;")
+    films = cur.fetchall()
+    db_close(conn, cur)
+    return jsonify(films)
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
-    if 0 <= id < len(films):
-        return films[id]
-    else:
-        return {'error': 'Film not found'}, 404
-
+    conn, cur = db_connect()
+    cur.execute("SELECT * FROM films WHERE id = %s;", (id,))
+    film = cur.fetchone()
+    db_close(conn, cur)
+    if film is None:
+        abort(404)
+    return jsonify(film)
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
 def del_film(id):
-    if 0 <= id < len(films):
-        del films[id]
-        return '', 204
-    else:
-        return {'error': 'Film not found'}, 404
-
+    conn, cur = db_connect()
+    cur.execute("DELETE FROM films WHERE id = %s;", (id,))
+    db_close(conn, cur)
+    return '', 204
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
 def put_film(id):
-    if 0 <= id < len(films):
-        film = request.get_json()
-        films[id] = film
-        return films[id]
-    else:
-        return {'error': 'Film not found'}, 404
+    film = request.get_json()
+    if film is None:
+        return {'error': 'Неверный формат данных.'}, 400
+    if not film.get('title_ru'):
+        return {'error': 'Русское название должно быть непустым.'}, 400
+    if not film.get('title') and not film['title_ru']:
+        return {'error': 'Название на оригинальном языке должно быть непустым, если русское название пустое.'}, 400
+    current_year = datetime.now().year
+    if not (1895 <= film.get('year', 0) <= current_year):
+        return {'error': f'Год должен быть от 1895 до {current_year}.'}, 400
+    if not film.get('description') or len(film['description']) > 2000:
+        return {'error': 'Описание должно быть непустым и не более 2000 символов.'}, 400
 
+    conn, cur = db_connect()
+    cur.execute("""UPDATE films SET title = %s, title_ru = %s, year = %s, description = %s WHERE id = %s;""", (film['title'], film['title_ru'], film['year'], film['description'], id))
+    db_close(conn, cur)
 
 @lab7.route('/lab7/rest-api/films/', methods=['POST'])
 def add_film():
     film = request.get_json()
-    films.append(film)
-    return {'id': len(films) - 1}, 201
+
+    if film is None:
+        return {'error': 'Неверный формат данных.'}, 400
+    if not film.get('title_ru'):
+        return {'error': 'Русское название должно быть непустым.'}, 400
+    if not film.get('title') and not film['title_ru']:
+        return {'error': 'Название на оригинальном языке должно быть непустым, если русское название пустое.'}, 400
+    current_year = datetime.now ().year
+    if not (1895 <= film.get('year', 0) <= current_year):
+        return {'error': f'Год должен быть от 1895 до {current_year}.'}, 400
+    if not film.get('description') or len(film['description']) > 2000:
+        return {'error': 'Описание должно быть непустым и не более 2000 символов.'}, 400
+
+    conn, cur = db_connect()
+    cur.execute("""INSERT INTO films (title, title_ru, year, description) VALUES (%s, %s, %s, %s) RETURNING id;""", (film['title'], film['title_ru'], film['year'], film['description']))
+    film_id = cur.fetchone()['id']
+    db_close(conn, cur)
+
+    return jsonify({'id': film_id}), 201
 

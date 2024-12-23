@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf40f7c8-cdaa-4ad9-b1de-2d2492ddaf12" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/static/lab7/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab7.py" beforeDir="false" afterPath="$PROJECT_DIR$/lab7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/lab7/lab7.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/lab7/lab7.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +20,7 @@
       <list>
         <option value="CSS File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -80,7 +84,7 @@
       <workItem from="1731037085480" duration="211000" />
       <workItem from="1732540234798" duration="7019000" />
       <workItem from="1734589325710" duration="3593000" />
-      <workItem from="1734601750358" duration="35603000" />
+      <workItem from="1734601750358" duration="36568000" />
     </task>
     <servers />
   </component>
