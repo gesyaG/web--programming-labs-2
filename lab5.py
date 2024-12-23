@@ -126,7 +126,7 @@ def create():
         cur.execute("INSERT INTO articles(user_id, title, article_text) \
                 VALUES (%s, %s, %s);", (user_id, title, article_text))
     else:
-        cur.execute("INSERT INTO articles(user_id, title, article_text) \
+        cur.execute("INSERT INTO articles(login_id, title, article_text) \
                 VALUES (?, ?, ?);", (user_id, title, article_text))
 
 
@@ -152,7 +152,7 @@ def list():
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM articles WHERE user_id=%s;", (user_id, ))
     else:
-        cur.execute("SELECT * FROM articles WHERE user_id=?;", (user_id, ))
+        cur.execute("SELECT * FROM articles WHERE login_id=?;", (user_id, ))
     articles = cur.fetchall()
 
     db_close(conn, cur)
