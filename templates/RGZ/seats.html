@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+    body {
+        background-color: #1a1a1a;
+        font-family: 'Helvetica', sans-serif;
+        color: #f5f5f5;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #ffcc00;
+        font-size: 2rem;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 10px;
+        color: #f5f5f5;
+        font-size: 1.5rem;
+    }
+
+    .seats-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        justify-content: center;
+        max-width: 300px;
+        margin: 20px auto;
+    }
+
+    .seat {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #333;
+        color: #f5f5f5;
+        transition: background-color 0.3s ease;
+    }
+
+    .seat.taken {
+        background-color: red;
+        cursor: not-allowed;
+    }
+
+    .seat.selected {
+        background-color: green;
+    }
+
+    .info {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 1.1rem;
+    }
+
+    .info span {
+        font-weight: bold;
+        color: #ffcc00;
+    }
+
+    button {
+        display: block;
+        width: 150px;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: #ffcc00;
+        border: none;
+        border-radius: 4px;
+        color: #1a1a1a;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #e6b800;
+    }
+</style>
+
+<h1>Выбор мест</h1>
+<h2 id="movie-title">Фильм: Загрузка...</h2>
+
+<div class="seats-container" id="seats-container"></div>
+<div class="info">
+    Выбранные места: <span id="selected-count">0</span>/5
+</div>
+<button id="confirm-button">Подтвердить</button>
+
+<script>
+    const sessionId = {{ session_id | safe }};
+    const seatsContainer = document.getElementById('seats-container');
+    const selectedCountElement = document.getElementById('selected-count');
+    let selectedSeats = [];
+
+    // Загрузка мест с сервера
+    async function fetchSeats() {
+        try {
+            const response = await fetch(`/api/sessions/${sessionId}/seats`);
+            const data = await response.json();
+
+            if (response.ok) {
+                // Обновляем название фильма
+                const movieTitleElement = document.getElementById('movie-title');
+                movieTitleElement.textContent = `Фильм: ${data.movie_name}`;
+
+                // Отображаем места
+                renderSeats(data.seats);
+            } else {
+                console.error('Ошибка загрузки мест:', data.error);
+            }
+        } catch (error) {
+            console.error('Ошибка загрузки мест:', error);
+        }
+    }
+
+    // Отображение мест
+    function renderSeats(seats) {
+        seatsContainer.innerHTML = '';
+        seats.forEach(seat => {
+            const seatElement = document.createElement('div');
+            seatElement.classList.add('seat');
+            seatElement.textContent = seat.seat_number;
+
+            if (seat.is_taken) {
+                seatElement.classList.add('taken');
+                seatElement.title = `Занято: ${seat.taken_by || 'Неизвестно'}`;
+            } else {
+                seatElement.addEventListener('click', () => toggleSeatSelection(seat));
+            }
+
+            seatsContainer.appendChild(seatElement);
+        });
+    }
+
+    // Переключение выбора места
+    function toggleSeatSelection(seat) {
+        const seatIndex = selectedSeats.findIndex(s => s.seat_id === seat.seat_id);
+
+        if (seatIndex >= 0) {
+            selectedSeats.splice(seatIndex, 1);
+        } else if (selectedSeats.length < 5) {
+            selectedSeats.push(seat);
+        }
+
+        updateSelection();
+    }
+
+    // Обновление отображения выбранных мест
+    function updateSelection() {
+        selectedCountElement.textContent = selectedSeats.length;
+        const seatElements = document.querySelectorAll('.seat');
+
+        seatElements.forEach(seatElement => {
+            const seatNumber = parseInt(seatElement.textContent, 10);
+
+            if (selectedSeats.some(seat => seat.seat_number === seatNumber)) {
+                seatElement.classList.add('selected');
+            } else {
+                seatElement.classList.remove('selected');
+            }
+        });
+    }
+
+    // Подтверждение брони
+    async function confirmBooking() {
+        try {
+            const response = await fetch(`/api/sessions/${sessionId}/book`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ seat_ids: selectedSeats.map(seat => seat.seat_id) })
+            });
+
+            if (response.ok) {
+                alert('Бронирование успешно!');
+                selectedSeats = [];
+                fetchSeats();
+            } else if (response.headers.get('Content-Type')?.includes('application/json')) {
+                const error = await response.json();
+                alert(`Ошибка бронирования: ${error.error}`);
+            } else {
+                alert('Ошибка бронирования: Сервер вернул некорректный ответ');
+                console.error('Некорректный ответ сервера:', await response.text());
+            }
+        } catch (error) {
+            console.error('Ошибка подтверждения бронирования:', error);
+            alert('Произошла ошибка при подключении к серверу. Попробуйте позже.');
+        }
+    }
+
+
+    document.getElementById('confirm-button').addEventListener('click', confirmBooking);
+
+    // Инициализация
+    fetchSeats();
+</script>
+
+{% endblock %}

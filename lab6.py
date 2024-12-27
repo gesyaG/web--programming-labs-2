@@ -11,7 +11,7 @@ lab6 = Blueprint('lab6', __name__)
 def db_connect():
 
     if current_app.config['DB_TYPE'] == 'postgres':
-        conn = psycopg2.connect(dbname="alexander_gerasimov_knowledge_base",
+        conn = psycopg2.connect(dbname="offices",
         user="postgres",
         password="postgres",
         host="127.0.0.1"
