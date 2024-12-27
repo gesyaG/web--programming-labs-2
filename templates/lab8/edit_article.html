@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block lab %}Лабораторная работа 8{% endblock %}
+{% block main %}
+
+    <h1>Редактировать статью</h1>
+
+    <form method="POST">
+        <label for="title">Название статьи:</label>
+        <input type="text" id="title" name="title" value="{{ article.title }}" required>
+
+        <label for="article_text">Содержание статьи:</label>
+        <textarea id="article_text" name="article_text" required>{{ article.article_text }}</textarea>
+
+        <label for="is_public">Публичная статья:</label>
+        <input type="checkbox" id="is_public" name="is_public" {% if article.is_public %}checked{% endif %}>
+
+        <button type="submit">Обновить статью</button>
+    </form>
+
+    <a href="/lab8/list">Назад к списку статей</a>
+
+{% endblock %}

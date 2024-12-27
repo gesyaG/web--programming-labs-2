@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block lab %}Лабораторная работа 8{% endblock %}
+{% block main %}
+  <h1>Результаты поиска</h1>
+  <ul>
+    {% if articles %}
+    {% for article in articles %}
+    <li>
+      <h2>{{ article.title }}</h2>
+      <p>{{ article.article_text }}</p>
+    </li>
+    {% endfor %}
+    {% else %}
+    <p>Статьи не найдены.</p>
+    {% endif %}
+  </ul>
+{% endblock %}
