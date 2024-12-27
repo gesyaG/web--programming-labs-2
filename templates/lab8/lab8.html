@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 8{% endblock %}
+
+{% block main %}
+<head>
+    <title>База знаний</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+            background-color: #f2f2f2;
+        }
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+
+
+<h1>База знаний</h1>
+<div class="container">
+    <div class="content">
+        {% if login %}
+        <p>{{ login }}!</p>
+        {% else %}
+        <p>Аноним</p>
+        {% endif %}
+        <a href="/lab8/login"><button>Войти</button></a>
+        <a href="/lab8/register"><button>Регистрация</button></a>
+        <a href="/lab8/articles"><button>Список статей</button></a>
+        <a href="/lab8/create"><button>Создать статью</button></a>
+    </div>
+</div>
+{% endblock %}
