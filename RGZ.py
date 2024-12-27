@@ -326,15 +326,21 @@ def fetch_sessions():
             {
                 "id": session["id"],
                 "movie_name": session["movie_name"],
-                "session_date": datetime.strptime(session["session_date"], '%Y-%m-%d').strftime('%Y-%m-%d'),  # Преобразование даты в нужный формат
-                "session_time": datetime.strptime(session["session_time"], '%H:%M').strftime('%H:%M'),  # Преобразование времени в нужный формат
+                # Преобразование строки в datetime и форматирование
+                "session_date": datetime.strptime(session["session_date"], '%Y-%m-%d').date(),  # Получаем только дату
+                "session_time": datetime.strptime(session["session_time"], '%H:%M').time(),  # Получаем только время
                 "is_editable": datetime.combine(
-                    datetime.strptime(session["session_date"], '%Y-%m-%d'),
+                    datetime.strptime(session["session_date"], '%Y-%m-%d').date(),
                     datetime.strptime(session["session_time"], '%H:%M').time()
                 ) > current_time
             }
             for session in sessions
         ]
+        # Форматируем для отображения
+        for session in formatted_sessions:
+            session["session_date"] = session["session_date"].strftime('%Y-%m-%d')  # Форматируем дату
+            session["session_time"] = session["session_time"].strftime('%H:%M')  # Форматируем время
+
         return formatted_sessions, None
 
     except Exception as e:
