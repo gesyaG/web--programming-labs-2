@@ -1,9 +1,10 @@
+from flask import Flask, render_template
 import os
 from os import path
-from flask import Flask, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from db import db
 from db.models import Users
+from flask_login import LoginManager
 
 from lab1 import lab1
 from lab2 import lab2
