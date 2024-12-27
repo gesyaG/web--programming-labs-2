@@ -326,9 +326,12 @@ def fetch_sessions():
             {
                 "id": session["id"],
                 "movie_name": session["movie_name"],
-                "session_date": session["session_date"].isoformat(),  # Преобразование даты в строку
-                "session_time": session["session_time"].isoformat(),  # Преобразование времени в строку
-                "is_editable": datetime.combine(session["session_date"], session["session_time"]) > current_time
+                "session_date": datetime.strptime(session["session_date"], '%Y-%m-%d').isoformat(),  # Преобразование строки в datetime
+                "session_time": datetime.strptime(session["session_time"], '%H:%M:%S').isoformat(),  # Преобразование строки в datetime
+                "is_editable": datetime.combine(
+                    datetime.strptime(session["session_date"], '%Y-%m-%d'),
+                    datetime.strptime(session["session_time"], '%H:%M:%S').time()
+                ) > current_time
             }
             for session in sessions
         ]
